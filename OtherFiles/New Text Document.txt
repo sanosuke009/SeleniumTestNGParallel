@@ -1,0 +1,1 @@
+-B clean test -Dmaven.test.failure.ignore=true verify
