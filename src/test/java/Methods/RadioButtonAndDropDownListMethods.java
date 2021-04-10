@@ -14,6 +14,7 @@ public class RadioButtonAndDropDownListMethods {
 		if(res) b.report("The Drop Down List Page is Displayed.");
 		else b.report("The Drop Down List Page is NOT Displayed.");
 		elementActions.highlightElement(b, DropDownListPage.elmIDSingleDropDownList);
+		elementActions.takeScreenShot(b, DropDownListPage.elmIDSingleDropDownList);
 		b.takeScreenShot();
 		if(res) res = elementActions.selectDropDownList(b, DropDownListPage.elmIDSingleDropDownList, text);
 		if(res) b.report("The option "+text+" has been successfully selected from the drop down list.");
@@ -23,6 +24,7 @@ public class RadioButtonAndDropDownListMethods {
 		if(res) res = elementActions.selectDropDownListMultiple(b, DropDownListPage.elmIDMultipleDropDownList, text2);
 		if(res) b.report("The options "+text2+" have been successfully selected from the drop down list.");
 		else b.report("The options "+text2+" have NOT been selected from the drop down list.");
+		elementActions.takeScreenShot(b, DropDownListPage.elmIDMultipleDropDownList);
 		b.takeScreenShot();
 		return res;
 	}

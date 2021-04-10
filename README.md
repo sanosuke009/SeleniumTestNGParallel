@@ -13,6 +13,7 @@ Pros:
 8. Ongoing process of adding new test methods.
 9. Temp file management
 10. Element Highlighting implemented.
+11. Element Screenshot implemented.
 
 Cons:
 

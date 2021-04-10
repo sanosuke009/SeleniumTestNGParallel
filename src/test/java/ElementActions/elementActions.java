@@ -1,14 +1,22 @@
 package ElementActions;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+
+import com.relevantcodes.extentreports.LogStatus;
+
 import TestBases.BaseC;
 import io.netty.handler.timeout.TimeoutException;
 
@@ -217,6 +225,24 @@ public class elementActions {
 		catch(Exception e)
 		{
 			b.report("Error occurred during low lighting element : "+locator+".");
+			res =false;
+		}
+		return res;
+	}
+	public static boolean takeScreenShot(BaseC b, By locator)
+	{
+		boolean res = true;String Base64StringofScreenshot="";
+		try {
+			WebElement element = b.driver().findElement(locator);
+			File src = element.getScreenshotAs(OutputType.FILE);
+		    byte[] fileContent = FileUtils.readFileToByteArray(src);
+		    Base64StringofScreenshot = "data:image/png;base64,"+Base64.getEncoder().encodeToString(fileContent);
+		    String details = b.rm.logger.addBase64ScreenShot(Base64StringofScreenshot);
+		    b.rm.logger.log(LogStatus.INFO, details);
+		}
+		catch(Exception e)
+		{
+			b.report("Error occurred during taking screenshot of element : "+locator+".");
 			res =false;
 		}
 		return res;

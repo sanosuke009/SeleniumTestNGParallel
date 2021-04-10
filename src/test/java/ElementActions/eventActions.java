@@ -1,22 +1,9 @@
 package ElementActions;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.devtools.events.DomMutationEvent;
 import org.openqa.selenium.logging.HasLogEvents;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import TestManagers.ResultManager;
-import io.netty.handler.timeout.TimeoutException;
 
 public class eventActions {
 	

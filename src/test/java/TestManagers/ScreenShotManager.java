@@ -11,7 +11,6 @@ import org.testng.Reporter;
 
 import com.relevantcodes.extentreports.LogStatus;
 
-import TestBases.BaseC;
 import Utilities.TimeStampUtils;
 
 public class ScreenShotManager {

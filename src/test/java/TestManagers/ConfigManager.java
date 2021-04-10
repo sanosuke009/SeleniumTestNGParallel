@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import TestBases.BaseC;
-
 public class ConfigManager{
 	
 	//=====================Variables=================
