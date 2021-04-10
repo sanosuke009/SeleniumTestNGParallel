@@ -18,7 +18,7 @@ import TestManagers.ResultManager;
 import TestManagers.TestDataManager;
 import TestManagers.WebDriverManager;
 
-public class TestSuite_1 {
+public class TestSuite_001_InputFields {
 	
 	BaseC base;
 	

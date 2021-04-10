@@ -8,6 +8,7 @@ import com.relevantcodes.extentreports.LogStatus;
 import TestManagers.ConfigManager;
 import TestManagers.ResultManager;
 import TestManagers.ScreenShotManager;
+import TestManagers.TempFileManager;
 import TestManagers.TestDataManager;
 import TestManagers.WebDriverManager;
 
@@ -21,6 +22,9 @@ public class BaseC{
 	public  ScreenShotManager sm;
 	public TestDataManager tm;
 	public WebDriverManager wm;
+	public TempFileManager tmp;
+	private boolean isTempManagementRequired = false;
+	public boolean highlight = false;
 	//===============================================================================
 	
 	//=========================Constructors==========================================
@@ -30,6 +34,9 @@ public class BaseC{
 		setConfig();
 		setExtent();
 		setTestData();
+		setTempRequirement();
+		setTempFile();
+		setHighlightRequirement();
 	}
 	
 	//==================Advance Setter Method======================================
@@ -53,7 +60,18 @@ public class BaseC{
 	{
 		this.tm = new TestDataManager(con, rm);
 	}
-	
+	public void setTempRequirement()
+	{
+		isTempManagementRequired = con.configGet("isTempManagementRequired").equalsIgnoreCase("true")?true:false;
+	}
+	public void setTempFile()
+	{
+		if(isTempManagementRequired) this.tmp = new TempFileManager(con);
+	}
+	public void setHighlightRequirement()
+	{
+		highlight = con.configGet("highlight").equalsIgnoreCase("true")?true:false;
+	}
 	
 	//=============================================================================
 	
@@ -88,6 +106,10 @@ public class BaseC{
 			this.rm.terminateExtentReport();
 		}
 
+		public void startextent(String keyword)
+		{
+			this.rm.startextent(this.get(keyword,"TestName"), this.get(keyword,"TestDescription"));
+		}
 		public void startextent(String testname, String testdesc)
 		{
 			this.rm.startextent(testname, testdesc);
@@ -125,6 +147,7 @@ public class BaseC{
 		//=============================Start & End Session Methods=============================
 		public void startSession()
 		{
+			if(isTempManagementRequired) {this.initTemp();}
 			this.setWebDriver();
 			this.launchBrowser();
 			this.setScreenShot();
@@ -133,7 +156,20 @@ public class BaseC{
 		{
 			this.endextent(result);
 			this.quitBrowser();
+			if(isTempManagementRequired) {this.deleteTemp();}
 		}
+		//=============================================================================
+		//=======================Temp File manging Methods=============================
+		public void initTemp()
+		{
+			this.tmp.initTemp();
+		}
+		
+		public void deleteTemp()
+		{
+			this.tmp.deleteTemp();
+		}
+		
 		//=============================================================================
 		
 		public WebDriver driver()

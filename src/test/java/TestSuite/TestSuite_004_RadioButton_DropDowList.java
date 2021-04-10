@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import Methods.LandingMethods;
+import Methods.RadioButtonAndDropDownListMethods;
 import TestBases.BaseC;
 import TestManagers.BaseClassManager;
 import TestManagers.ConfigManager;
@@ -18,9 +19,9 @@ import TestManagers.ResultManager;
 import TestManagers.TestDataManager;
 import TestManagers.WebDriverManager;
 
-public class TestSuite_3 {
+public class TestSuite_004_RadioButton_DropDowList {
 	
-BaseC base;
+	BaseC base;
 	
 	@BeforeClass
 	public void initReport()
@@ -46,14 +47,16 @@ BaseC base;
 	}
 	
 	@Test
-	public void testMethod_3()
+	public void testMethod_5()
 	{
-		String keyword = "kw_checkboxes";
-		base.startextent(base.get(keyword,"TestName"), base.get(keyword,"TestDescription"));
+		String keyword = "kw_ddlist";
+		base.startextent(keyword);
 		Assert.assertTrue(LandingMethods.openLandingPage(base));
 		LandingMethods.clickOnPopUp(base);
-		Assert.assertTrue(LandingMethods.validateCheckBoxPage
-				(base, base.get(keyword,"CheckBoxText")));
+		Assert.assertTrue(LandingMethods.clickOnOptionFromList
+				(base, base.get(keyword,"OptionFromList")));
+		Assert.assertTrue(RadioButtonAndDropDownListMethods.validateSingleDropDownList
+				(base, base.get(keyword,"FirstOption"), base.get(keyword,"SecondOption")));
 	}
 
 }

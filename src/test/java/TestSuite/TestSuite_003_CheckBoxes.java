@@ -18,9 +18,9 @@ import TestManagers.ResultManager;
 import TestManagers.TestDataManager;
 import TestManagers.WebDriverManager;
 
-public class TestSuite_4 {
+public class TestSuite_003_CheckBoxes {
 	
-	BaseC base;
+BaseC base;
 	
 	@BeforeClass
 	public void initReport()

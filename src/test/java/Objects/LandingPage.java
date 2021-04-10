@@ -18,5 +18,7 @@ public class LandingPage {
 			+ " and contains(text(),'Simple Form Demo')]");
 	public static By elmXPlistCheckBox = By.xpath("//a[@class='list-group-item'"
 			+ " and contains(text(),'Check Box Demo')]");
+	public static By elmXPlistOption(String txt) {return By.xpath("//a[@class='list-group-item'"
+			+ " and contains(text(),'"+txt+"')]");}
 	
 }

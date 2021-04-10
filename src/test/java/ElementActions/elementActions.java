@@ -6,13 +6,10 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
+import org.openqa.selenium.support.ui.Select;
 import TestBases.BaseC;
-import TestManagers.ResultManager;
 import io.netty.handler.timeout.TimeoutException;
 
 public class elementActions {
@@ -153,6 +150,76 @@ public class elementActions {
 			b.report("Error occurred during getting the texts from element : "+locator+".");
 		}
 		return names;
+	}
+	
+	public static boolean selectDropDownList(BaseC b, By locator, String value)
+	{
+		boolean res = true;
+		try {
+			WebElement element = b.driver().findElement(locator);
+			Select select = new Select(element);
+			select.selectByValue(value);
+		}
+		catch(TimeoutException e)
+		{
+			b.report("The option "+value+" was not selected from Drop Down List element "+locator);
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean selectDropDownListMultiple(BaseC b, By locator, String values)
+	{
+		boolean res = true;
+		try {
+			String[] value = values.split("#");
+			WebElement element = b.driver().findElement(locator);
+			Select select = new Select(element);
+			for(String val : value)
+				{select.selectByValue(val);}
+		}
+		catch(TimeoutException e)
+		{
+			b.report("Error occurred during selection of options from Multi Drop Down List element "+locator);
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean highlightElement(BaseC b, By locator)
+	{
+		boolean res = true;
+		try {
+			if(b.highlight) {
+			JavascriptExecutor js = (JavascriptExecutor)b.driver();
+			WebElement element = b.driver().findElement(locator);
+			js.executeScript("arguments[0].style.border='3px solid red'", element);
+			}
+		}
+		catch(Exception e)
+		{
+			b.report("Error occurred during high lighting element : "+locator+".");
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean lowlightElement(BaseC b, By locator)
+	{
+		boolean res = true;
+		try {
+			if(b.highlight) {
+			JavascriptExecutor js = (JavascriptExecutor)b.driver();
+			WebElement element = b.driver().findElement(locator);
+			js.executeScript("arguments[0].style.border=''",element, "");
+			}
+		}
+		catch(Exception e)
+		{
+			b.report("Error occurred during low lighting element : "+locator+".");
+			res =false;
+		}
+		return res;
 	}
 
 }

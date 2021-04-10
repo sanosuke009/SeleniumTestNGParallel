@@ -17,6 +17,7 @@ public class LandingMethods {
 		if(res) res = elementActions.isDisplayed(b, LandingPage.elmXPHomepgaeHeader);
 		if(res) b.report("The Home page is displayed.");
 		if(!res) b.report("The Home page is NOT displayed.");
+		elementActions.highlightElement(b, LandingPage.elmXPHomepgaeHeader);
 		b.takeScreenShot();
 		return res;
 	}
@@ -105,6 +106,7 @@ public class LandingMethods {
 	{
 		boolean res = true;String eltext = "";
 		if(res) res = elementActions.scrollToElement(b, LandingPage.elmIDButtonStartExample);
+		elementActions.highlightElement(b, LandingPage.elmIDButtonStartExample);
 		b.takeScreenShot();
 		if(res) res = elementActions.click(b, LandingPage.elmIDButtonStartExample);
 		if(res) b.report("The Start Example Button is clicked.");
@@ -130,5 +132,25 @@ public class LandingMethods {
 				+ "The expected text was "+text+" and the text fetched from the webpage is "+eltext);
 		return res;
 	}
+
+
+	public static boolean clickOnOptionFromList(BaseC b, String text)
+	{
+		boolean res = true;
+		if(res) res = elementActions.scrollToElement(b, LandingPage.elmIDButtonStartExample);
+		elementActions.highlightElement(b, LandingPage.elmIDButtonStartExample);
+		b.takeScreenShot();
+		if(res) res = elementActions.click(b, LandingPage.elmIDButtonStartExample);
+		if(res) b.report("The Start Example Button is clicked.");
+		if(!res) b.report("The Start Example Button is NOT clicked.");
+		elementActions.highlightElement(b, LandingPage.elmXPlistOption(text));
+		b.takeScreenShot();
+		if(res) res = elementActions.click(b, LandingPage.elmXPlistOption(text));
+		if(res) b.report("The "+text+" Option is clicked.");
+		if(!res) b.report("The "+text+" Option is NOT clicked.");
+		return res;
+	}
+	
+	
 
 }
