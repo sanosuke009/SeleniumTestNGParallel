@@ -14,6 +14,7 @@ Pros:
 9. Temp file management
 10. Element Highlighting implemented.
 11. Element Screenshot implemented.
+12. Running batch file implemented along with task kill chromedriver.exe and chrome.exe
 
 Cons:
 

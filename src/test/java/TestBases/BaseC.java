@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import com.relevantcodes.extentreports.LogStatus;
 
+import TestManagers.CleanUpManager;
 import TestManagers.ConfigManager;
 import TestManagers.ResultManager;
 import TestManagers.ScreenShotManager;
@@ -23,12 +24,25 @@ public class BaseC{
 	public TestDataManager tm;
 	public WebDriverManager wm;
 	public TempFileManager tmp;
+	public CleanUpManager cln;
 	private boolean isTempManagementRequired = false;
 	public boolean highlight = false;
+	private boolean cleanup = false;
 	//===============================================================================
 	
 	//=========================Constructors==========================================
 	
+	/*This constructor calls 8 methods in a particular sequence: 
+	 *  1. setConfig();
+	    2. setExtent();
+		3. setTestData();
+		4. setTempRequirement();
+		5. setTempFile();
+		6. setHighlightRequirement();
+		7. setCleanUpRequirement();
+		8. setCleanUpmanager();
+	 * 
+	 */
 	public BaseC()
 	{
 		setConfig();
@@ -37,6 +51,8 @@ public class BaseC{
 		setTempRequirement();
 		setTempFile();
 		setHighlightRequirement();
+		setCleanUpRequirement();
+		setCleanUpmanager();
 	}
 	
 	//==================Advance Setter Method======================================
@@ -71,6 +87,14 @@ public class BaseC{
 	public void setHighlightRequirement()
 	{
 		highlight = con.configGet("highlight").equalsIgnoreCase("true")?true:false;
+	}
+	public void setCleanUpRequirement()
+	{
+		cleanup = con.configGet("cleanup").equalsIgnoreCase("true")?true:false;
+	}
+	public void setCleanUpmanager()
+	{
+		if(cleanup) this.cln = new CleanUpManager(con);
 	}
 	
 	//=============================================================================
@@ -159,6 +183,7 @@ public class BaseC{
 			if(isTempManagementRequired) {this.deleteTemp();}
 		}
 		//=============================================================================
+		
 		//=======================Temp File manging Methods=============================
 		public void initTemp()
 		{
@@ -170,6 +195,11 @@ public class BaseC{
 			this.tmp.deleteTemp();
 		}
 		
+		public void cleanup()
+		{
+			this.cln.cleanupdrivers();
+		}
+		
 		//=============================================================================
 		
 		public WebDriver driver()
@@ -179,6 +209,12 @@ public class BaseC{
 		public WebDriverWait Wait()
 		{
 			return this.wm.wait;
+		}
+		//=======================Deconstructors===========================================
+		public void destruct()
+		{
+			//this.terminateExtentReport();
+			if(this.cleanup) {this.cleanup();}
 		}
 	
 
