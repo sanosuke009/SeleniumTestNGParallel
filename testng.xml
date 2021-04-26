@@ -3,7 +3,7 @@
 <suite name="Testing Demo">
     <test name="Regression">
          <classes>
-             <class name="TestSuite.TestSuite_004_RadioButton_DropDowList"/>
+             <class name="TestSuite.TestSuite_005_HandlingAlerts"/>
           </classes>
      </test> <!-- Test -->
 </suite> <!-- Suite -->

@@ -1,83 +1,130 @@
 package TestManagers;
 
 
-import java.util.concurrent.TimeUnit;
 
+import java.net.URL;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import Utilities.FileUtil;
+
 public class WebDriverManager {
-	
+
 	public  WebDriver driver;
 	public  WebDriverWait wait;
 	public  ConfigManager cm;
-	
+	public  Wait<WebDriver> fwait;
+
 	public WebDriverManager(ConfigManager cm)
 	{
 		this.cm = cm;
 	}
-	
-		@SuppressWarnings("deprecation")
-		public boolean initiateBrowser()
-		{
-			boolean res = false;
-			try {
-				System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+cm.configGet("chromedriverpath"));
-				driver = new ChromeDriver();
-				driver.manage().timeouts().implicitlyWait(15000, TimeUnit.MILLISECONDS);
-				wait = new WebDriverWait(driver, 10);
-				res = true;
-			}
-			catch(Exception e)
+
+	public boolean initiateBrowser()
+	{
+		boolean res = false;
+		try {
+			//==============Initiating ChromeOptions==================
+			ChromeOptions options = new ChromeOptions();
+			//options.setPageLoadStrategy(PageLoadStrategy.NONE); //Only wait till the basic HTML page loading
+			//options.setPageLoadStrategy(PageLoadStrategy.EAGER);//Wait till all the basic images, not the stylesheets
+			options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+			if(cm.configGet("proxyon").contains("Y"))
 			{
-				e.printStackTrace();
-				res = false;
+				Proxy proxy = new Proxy();
+				proxy.setHttpProxy(cm.configGet("proxy"));
+				options.setCapability("proxy", proxy);
 			}
-				return res;
-		}
-		
-		public boolean launchBrowser()
-		{
-			boolean res = false;
-			try {
-				initiateBrowser();
-				driver.get(cm.configGet("url"));
-				driver.manage().window().maximize();
-				res = true;
-			}
-			catch(Exception e)
+			options.setExperimentalOption("excludeSwitches", Arrays.asList("disable-popup-blocking"));
+			Map<String, Object> prefs = new HashMap<String, Object>();
+			prefs.put("download.default_directory", FileUtil.getAbsPath(cm.configGet("downloadpath")));
+			options.setExperimentalOption("prefs", prefs);
+			//========================================================
+			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+cm.configGet("chromedriverpath"));
+			if(cm.configGet("remote").contains("Y"))
 			{
-				e.printStackTrace();
-				res = false;
+				options.setCapability("browserVersion", "90");
+				options.setCapability("platformName", "Windows 10");
+				driver = new RemoteWebDriver(new URL("http://www.myexamplebrowserstack.com"), options);
 			}
-				return res;
-		}
-		
-		public boolean launchBrowser(String url)
-		{
-			boolean res = false;
-			try {
-				initiateBrowser();
-				driver.get(url);
-				driver.manage().window().maximize();
-				res = true;
-			}
-			catch(Exception e)
+			else
 			{
-				e.printStackTrace();
-				res = false;
+				driver = new ChromeDriver(options);
 			}
-				return res;
+			//driver = ThreadGuard.protect(new ChromeDriver(options));//Thread guard protects the ownership of the webdriver.
+			System.out.println("Initiated webdriver.");
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.valueOf(cm.configGet("implicitwait"))));
+			wait = new WebDriverWait(driver, Duration.ofSeconds(Integer.valueOf(cm.configGet("explicitwait"))));
+			fwait = new FluentWait<WebDriver>(driver)
+					.withTimeout(Duration.ofSeconds(Integer.valueOf(cm.configGet("fluentwaitTimeout"))))
+					.pollingEvery(Duration.ofSeconds(Integer.valueOf(cm.configGet("fluentwaitPolling"))))
+					.ignoring(NoSuchElementException.class)
+					.withMessage("Waiting for 10 seconds polling every 2 seconds.");
+			res = true;
 		}
-		
-		public void closeBrowserTab()
+		catch(Exception e)
 		{
-			driver.close();
+			e.printStackTrace();
+			res = false;
 		}
-		
-		public void quitBrowser()
+		return res;
+	}
+
+
+	public boolean launchBrowser()
+	{
+		boolean res = false;
+		try {
+			initiateBrowser();
+			driver.get(cm.configGet("url"));
+			driver.manage().window().maximize();
+			res = true;
+		}
+		catch(Exception e)
 		{
-			driver.quit();
+			e.printStackTrace();
+			res = false;
 		}
+		return res;
+	}
+
+	public boolean launchBrowser(String url)
+	{
+		boolean res = false;
+		try {
+			initiateBrowser();
+			driver.get(url);
+			driver.manage().window().maximize();
+			res = true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			res = false;
+		}
+		return res;
+	}
+
+	public void closeBrowserTab()
+	{
+		driver.close();
+	}
+
+	public void quitBrowser()
+	{
+		driver.quit();
+	}
 }

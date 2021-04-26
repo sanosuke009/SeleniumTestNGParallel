@@ -1,9 +1,7 @@
 package ElementActions;
 
-import java.util.concurrent.CountDownLatch;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.logging.HasLogEvents;
 
 public class eventActions {
 	
@@ -11,13 +9,13 @@ public class eventActions {
 	{
 		boolean res = true;
 		try {
-			HasLogEvents logger = (HasLogEvents) driver;
+			//HasLogEvents logger = (HasLogEvents) driver;
 
 			//AtomicReference<DomMutationEvent> seen = new AtomicReference<>();
-			CountDownLatch latch = new CountDownLatch(1);
-			////logger.onLogEvent(domMutation(mutation -> {
-			   // seen.set(mutation);
-			   // latch.countDown();
+			//CountDownLatch latch = new CountDownLatch(1);
+			//logger.onLogEvent(domMutation(mutation -> {
+			    //seen.set(mutation);
+			    //latch.countDown();
 			//}));
 		}
 		catch(Exception e)

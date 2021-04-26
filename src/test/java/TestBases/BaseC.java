@@ -1,10 +1,12 @@
 package TestBases;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import com.relevantcodes.extentreports.LogStatus;
 
+import TestManagers.AssertionManager;
 import TestManagers.CleanUpManager;
 import TestManagers.ConfigManager;
 import TestManagers.ResultManager;
@@ -25,6 +27,8 @@ public class BaseC{
 	public WebDriverManager wm;
 	public TempFileManager tmp;
 	public CleanUpManager cln;
+	public AssertionManager am;
+	private boolean hardAssert = false;
 	private boolean isTempManagementRequired = false;
 	public boolean highlight = false;
 	private boolean cleanup = false;
@@ -41,6 +45,7 @@ public class BaseC{
 		6. setHighlightRequirement();
 		7. setCleanUpRequirement();
 		8. setCleanUpmanager();
+		9. setAssertionOption();
 	 * 
 	 */
 	public BaseC()
@@ -53,6 +58,7 @@ public class BaseC{
 		setHighlightRequirement();
 		setCleanUpRequirement();
 		setCleanUpmanager();
+		setAssertionOption();
 	}
 	
 	//==================Advance Setter Method======================================
@@ -92,9 +98,17 @@ public class BaseC{
 	{
 		cleanup = con.configGet("cleanup").equalsIgnoreCase("true")?true:false;
 	}
+	public void setAssertionOption()
+	{
+		hardAssert = con.configGet("hardassert").equalsIgnoreCase("Y")?true:false;
+	}
 	public void setCleanUpmanager()
 	{
 		if(cleanup) this.cln = new CleanUpManager(con);
+	}
+	public void setAssertionManager()
+	{
+		this.am = new AssertionManager(con);
 	}
 	
 	//=============================================================================
@@ -133,6 +147,7 @@ public class BaseC{
 		public void startextent(String keyword)
 		{
 			this.rm.startextent(this.get(keyword,"TestName"), this.get(keyword,"TestDescription"));
+			setAssertionManager();
 		}
 		public void startextent(String testname, String testdesc)
 		{
@@ -165,6 +180,15 @@ public class BaseC{
 			return this.tm.get(keyword, columnname);
 		}
 		
+		public void Assert(boolean res)
+		{
+			this.am.Assert(res);
+		}
+		
+		public void AssertAll()
+		{
+			if(!hardAssert) {this.am.AssertAll();}
+		}
 		
 		//=============================================================================
 		
@@ -174,6 +198,13 @@ public class BaseC{
 			if(isTempManagementRequired) {this.initTemp();}
 			this.setWebDriver();
 			this.launchBrowser();
+			this.setScreenShot();
+		}
+		public void startSession(String url)
+		{
+			if(isTempManagementRequired) {this.initTemp();}
+			this.setWebDriver();
+			this.launchBrowser(url);
 			this.setScreenShot();
 		}
 		public void endSession(ITestResult result)
@@ -209,6 +240,10 @@ public class BaseC{
 		public WebDriverWait Wait()
 		{
 			return this.wm.wait;
+		}
+		public Wait<WebDriver> FWait()
+		{
+			return this.wm.fwait;
 		}
 		//=======================Deconstructors===========================================
 		public void destruct()

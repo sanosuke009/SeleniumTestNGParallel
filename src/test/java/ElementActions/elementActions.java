@@ -6,11 +6,11 @@ import java.util.Base64;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -46,6 +46,79 @@ public class elementActions {
 		boolean res = true;
 		try {
 			b.Wait().until(ExpectedConditions.elementToBeClickable(locator));
+		}
+		catch(TimeoutException e)
+		{
+			b.report("The element "+locator+" not clickable.");
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean actionOnAlert(BaseC b, String action)
+	{
+		boolean res = true;
+		try {
+			Alert alert = b.Wait().until(ExpectedConditions.alertIsPresent());
+			//b.takeScreenShot();
+			b.report("The alert report text is displayed as "+alert.getText());
+			if(action.equalsIgnoreCase("accept"))
+			{
+				alert.accept();
+				b.report("The alert was accepted.");
+			}
+			else
+			{
+				alert.dismiss();
+				b.report("The alert was dismissed.");
+			}
+			b.takeScreenShot();
+		}
+		catch(TimeoutException e)
+		{
+			b.report("The Alert is not visible.");
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean actionOnAlert(BaseC b, String action, String text)
+	{
+		boolean res = true;
+		try {
+			Alert alert = b.Wait().until(ExpectedConditions.alertIsPresent());
+			//b.takeScreenShot();
+			//b.takeScreenShot(LogStatus.INFO, "The alert report test is displayed as "+alert.getText());
+			b.report("The alert report text is displayed as "+alert.getText());
+			alert.sendKeys(text);
+			//b.takeScreenShot(LogStatus.INFO, "The test "+text+" has been given as input to the alert.");
+			//b.takeScreenShot();
+			b.report("The text "+text+" has been given as input to the alert.");
+			if(action.equalsIgnoreCase("accept"))
+			{
+				alert.accept();
+				b.report("The alert was accepted.");
+			}
+			else
+			{
+				alert.dismiss();
+				b.report("The alert was dismissed.");
+			}
+			b.takeScreenShot();
+		}
+		catch(TimeoutException e)
+		{
+			b.report("The Alert is not visible.");
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean waitUntilClickableFluent(BaseC b, By locator)
+	{
+		boolean res = true;
+		try {
+			b.FWait().until(ExpectedConditions.elementToBeClickable(locator));
 		}
 		catch(TimeoutException e)
 		{
@@ -124,6 +197,24 @@ public class elementActions {
 		catch(Exception e)
 		{
 			b.report("The page was not scrolled to element : "+locator+".");
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean scrollElementToMiddle(BaseC b, By locator)
+	{
+		boolean res = true;
+		try {
+			JavascriptExecutor js = (JavascriptExecutor)b.driver();
+			WebElement element = b.driver().findElement(locator);
+			js.executeScript("arguments[0].scrollIntoView"
+					+ "({behavior: \"smooth\", block: \"center\", inline: \"nearest\"})", element);
+		}
+		catch(Exception e)
+		{
+			b.report("The page was not scrolled to element : "+locator+".");
+			e.printStackTrace();
 			res =false;
 		}
 		return res;
