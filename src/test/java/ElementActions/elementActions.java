@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
@@ -138,6 +139,21 @@ public class elementActions {
 		catch(TimeoutException e)
 		{
 			b.report("The STring "+keysToSend+" was not given as input in element "+locator);
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean sendKeys(BaseC b, By locator, Keys keysToSend)
+	{
+		boolean res = true;
+		try {
+			b.driver().findElement(locator).clear();
+			b.driver().findElement(locator).sendKeys(keysToSend);
+		}
+		catch(TimeoutException e)
+		{
+			b.report("The Key Stroke "+keysToSend+" was not given as input in element "+locator);
 			res =false;
 		}
 		return res;

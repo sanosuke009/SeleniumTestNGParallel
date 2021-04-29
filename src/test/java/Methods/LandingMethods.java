@@ -151,6 +151,18 @@ public class LandingMethods {
 		return res;
 	}
 	
-	
+
+	public static boolean pickOption(BaseC b, String option1, String option)
+	{
+		boolean res = true;
+		if(res) res = elementActions.waitUntilClickableFluent(b, LandingPage.elmXPOptionsDropDown(option1));
+		if(res) res = elementActions.isDisplayed(b, LandingPage.elmXPOptionsDropDown(option1));
+		if(res) res = elementActions.click(b, LandingPage.elmXPOptionsDropDown(option1));
+		if(res) res = elementActions.click(b, LandingPage.elmXPDatePickerDropDownOption(option));
+		if(res) b.report("The option "+option+" is selected from the Landing Page "+option1+" Drop Down List.");
+		else b.report("The option "+option+" is NOT selected from the Landing Page "+option1+" Drop Down List.");
+		b.takeScreenShot();
+		return res;
+	}
 
 }

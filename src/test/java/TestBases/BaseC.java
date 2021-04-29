@@ -32,6 +32,7 @@ public class BaseC{
 	private boolean isTempManagementRequired = false;
 	public boolean highlight = false;
 	private boolean cleanup = false;
+	private String keyword;
 	//===============================================================================
 	
 	//=========================Constructors==========================================
@@ -58,7 +59,6 @@ public class BaseC{
 		setHighlightRequirement();
 		setCleanUpRequirement();
 		setCleanUpmanager();
-		setAssertionOption();
 	}
 	
 	//==================Advance Setter Method======================================
@@ -108,7 +108,12 @@ public class BaseC{
 	}
 	public void setAssertionManager()
 	{
-		this.am = new AssertionManager(con);
+		this.am = new AssertionManager(tm, this.keyword);
+		this.hardAssert = this.am.hardAssert;
+	}
+	public void setKeyWord(String keyword)
+	{
+		this.keyword = keyword;
 	}
 	
 	//=============================================================================
@@ -144,9 +149,9 @@ public class BaseC{
 			this.rm.terminateExtentReport();
 		}
 
-		public void startextent(String keyword)
+		public void startextent()
 		{
-			this.rm.startextent(this.get(keyword,"TestName"), this.get(keyword,"TestDescription"));
+			this.rm.startextent(this.get(this.keyword,"TestName"), this.get(this.keyword,"TestDescription"));
 			setAssertionManager();
 		}
 		public void startextent(String testname, String testdesc)
@@ -178,6 +183,11 @@ public class BaseC{
 		public String get(String keyword, String columnname)
 		{
 			return this.tm.get(keyword, columnname);
+		}
+		
+		public String get(String columnname)
+		{
+			return this.tm.get(this.keyword, columnname);
 		}
 		
 		public void Assert(boolean res)

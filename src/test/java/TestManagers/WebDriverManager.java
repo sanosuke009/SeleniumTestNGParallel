@@ -20,8 +20,6 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import Utilities.FileUtil;
-
 public class WebDriverManager {
 
 	public  WebDriver driver;
@@ -42,22 +40,22 @@ public class WebDriverManager {
 			ChromeOptions options = new ChromeOptions();
 			//options.setPageLoadStrategy(PageLoadStrategy.NONE); //Only wait till the basic HTML page loading
 			//options.setPageLoadStrategy(PageLoadStrategy.EAGER);//Wait till all the basic images, not the stylesheets
-			options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+			//options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 			if(cm.configGet("proxyon").contains("Y"))
 			{
 				Proxy proxy = new Proxy();
 				proxy.setHttpProxy(cm.configGet("proxy"));
 				options.setCapability("proxy", proxy);
 			}
-			options.setExperimentalOption("excludeSwitches", Arrays.asList("disable-popup-blocking"));
+			//options.setExperimentalOption("excludeSwitches", Arrays.asList("disable-popup-blocking"));
 			Map<String, Object> prefs = new HashMap<String, Object>();
 			//prefs.put("profile.default_content_setting_values.notifications", 2);
-			prefs.put("profile.default_content_settings.popups", 0);
+			//prefs.put("profile.default_content_settings.popups", 0);
 			prefs.put("download.prompt_for_download", "false");
-			prefs.put("download.", "false");
-			prefs.put("download.default_directory", FileUtil.getAbsPath(cm.configGet("downloadpath")));
+			//prefs.put("download.", "false");
+			prefs.put("download.default_directory", System.getProperty("user.dir")+"\\"+cm.configGet("downloadpath"));
 			options.setExperimentalOption("prefs", prefs);
-			options.setExperimentalOption("useAutomationExtension", false);
+			//options.setExperimentalOption("useAutomationExtension", false);//Deprecated
 			options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 			//options.addArguments("start-maximized");
 			//options.addArguments("-headless");

@@ -12,6 +12,8 @@ public class LandingPage {
 	public static By elmIDButtonRoundBasic = By.className("round-tabs two");
 	public static By elmIDButtonRoundIntermediate = By.className("round-tabs three");
 	public static By elmIDButtonRoundAdvanced = By.className("round-tabs four");
+	public static By elmXPOptionsDropDown(String option) { return By.xpath("(//a[contains(text(),'"+option+"')])[1]");}
+	public static By elmXPDatePickerDropDownOption(String option) { return By.xpath("(//a[contains(text(),'"+option+"')])[1]");}
 	
 	public static By elmXPlistBasic = By.xpath("//a[@class='list-group-item']");
 	public static By elmXPlistBasicForms = By.xpath("//a[@class='list-group-item'"

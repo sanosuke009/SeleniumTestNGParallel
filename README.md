@@ -25,8 +25,10 @@ Pros:
 20. Added page loading strategy, pop up blocker and download path in ChromeOptions.
 21. Implemented Assertion Manager, controlling Hard & Soft Assert from Configuration file, for each test case.
 22. Added remote webdriver but not implemented.
+23. Added test case for downloading files, validating files in a directory and delete them.
 
 Cons:
 
 1. Parallel Execution Reports are not getting generated. Need to debug that.
 2. Screenshot cannot be taken for JavaScript alerts. Need to check later.
+3. OutOfMemry Error : Heap Space Issue -> Temporary solution by sure-fire configurations provided. Need to look for            	memory leaks later.

@@ -1,6 +1,5 @@
 package TestSuite;
 
-import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -13,43 +12,49 @@ import Methods.RadioButtonAndDropDownListMethods;
 import TestBases.BaseC;
 
 public class TestSuite_004_RadioButton_DropDowList {
-	
+
 	BaseC base;
-	
+
 	@BeforeClass
 	public void initReport()
 	{
 		base = new BaseC();
 	}
-	
+
 	@AfterClass
 	public void exitReport()
 	{
 		base.terminateExtentReport();
 	}
-	
+
 	@BeforeMethod
 	public void setUp()
 	{
 		base.startSession();
 	}
-		
+
 	@AfterMethod
 	public void getResult(ITestResult result){
 		base.endSession(result);
 	}
-	
+
 	@Test
-	public void testMethod_5()
+	public void testMethod_4()
 	{
 		String keyword = "kw_ddlist";
-		base.startextent(keyword);
-		Assert.assertTrue(LandingMethods.openLandingPage(base));
+		//=====Mandatory in every @Test============
+		base.setKeyWord(keyword);
+		base.startextent();//This line initializes the extent report for this particular test method
+		//=========================================
+		base.Assert(LandingMethods.openLandingPage(base));
 		LandingMethods.clickOnPopUp(base);
-		Assert.assertTrue(LandingMethods.clickOnOptionFromList
-				(base, base.get(keyword,"OptionFromList")));
-		Assert.assertTrue(RadioButtonAndDropDownListMethods.validateSingleDropDownList
-				(base, base.get(keyword,"FirstOption"), base.get(keyword,"SecondOption")));
+		base.Assert(LandingMethods.clickOnOptionFromList
+				(base, base.get("OptionFromList")));
+		base.Assert(RadioButtonAndDropDownListMethods.validateSingleDropDownList
+				(base, base.get("FirstOption"), base.get("SecondOption")));
+		//=====Mandatory at the end of all tests===
+		base.AssertAll();
+		//=========================================
 	}
 
 }

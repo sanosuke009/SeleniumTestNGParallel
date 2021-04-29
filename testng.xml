@@ -3,7 +3,7 @@
 <suite name="Testing Demo">
     <test name="Regression">
          <classes>
-             <class name="TestSuite.TestSuite_005_HandlingAlerts"/>
+             <class name="TestSuite.TestSuite_007_DownloadTableData"/>
           </classes>
      </test> <!-- Test -->
 </suite> <!-- Suite -->

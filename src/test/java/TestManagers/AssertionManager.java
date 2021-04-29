@@ -5,12 +5,12 @@ import org.testng.asserts.SoftAssert;
 
 public class AssertionManager {
 	
-	private boolean hardAssert = false;
+	public boolean hardAssert = false;
 	public SoftAssert ass;
 	
-	public AssertionManager(ConfigManager con)
+	public AssertionManager(TestDataManager tm, String keyword)
 	{
-		hardAssert = con.configGet("hardassert").equalsIgnoreCase("Y")?true:false;
+		hardAssert = tm.get(keyword, "HardAssert").equalsIgnoreCase("Y")?true:false;
 		if(!hardAssert)
 		{
 			ass = new SoftAssert();
