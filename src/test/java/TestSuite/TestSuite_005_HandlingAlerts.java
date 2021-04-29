@@ -9,8 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import Methods.AlertHandleMethods;
-import Methods.LandingMethods;
-import Methods.RadioButtonAndDropDownListMethods;
 import TestBases.BaseC;
 
 public class TestSuite_005_HandlingAlerts {
