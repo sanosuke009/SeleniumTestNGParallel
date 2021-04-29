@@ -14,6 +14,7 @@ import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -50,8 +51,16 @@ public class WebDriverManager {
 			}
 			options.setExperimentalOption("excludeSwitches", Arrays.asList("disable-popup-blocking"));
 			Map<String, Object> prefs = new HashMap<String, Object>();
+			//prefs.put("profile.default_content_setting_values.notifications", 2);
+			prefs.put("profile.default_content_settings.popups", 0);
+			prefs.put("download.prompt_for_download", "false");
+			prefs.put("download.", "false");
 			prefs.put("download.default_directory", FileUtil.getAbsPath(cm.configGet("downloadpath")));
 			options.setExperimentalOption("prefs", prefs);
+			options.setExperimentalOption("useAutomationExtension", false);
+			options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+			//options.addArguments("start-maximized");
+			//options.addArguments("-headless");
 			//========================================================
 			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+cm.configGet("chromedriverpath"));
 			if(cm.configGet("remote").contains("Y"))
@@ -66,6 +75,7 @@ public class WebDriverManager {
 			}
 			//driver = ThreadGuard.protect(new ChromeDriver(options));//Thread guard protects the ownership of the webdriver.
 			System.out.println("Initiated webdriver.");
+			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.valueOf(cm.configGet("implicitwait"))));
 			wait = new WebDriverWait(driver, Duration.ofSeconds(Integer.valueOf(cm.configGet("explicitwait"))));
 			fwait = new FluentWait<WebDriver>(driver)

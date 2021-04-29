@@ -1,6 +1,5 @@
 package TestSuite;
 
-import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -14,7 +13,6 @@ import TestBases.BaseC;
 public class TestSuite_005_HandlingAlerts {
 	
 	BaseC base;
-	Assert assertion;
 	
 	@BeforeClass
 	public void initReport()
