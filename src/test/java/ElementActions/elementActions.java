@@ -13,6 +13,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
@@ -369,6 +370,71 @@ public class elementActions {
 		{
 			b.report("Error occurred during taking screenshot of element : "+locator+".");
 			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean compareColor(BaseC b, By locator, String color)
+	{
+		boolean res = true;
+		try {
+			Color col = Color.fromString(color);
+			Color elcol = Color.fromString(b.driver().findElement(locator).getCssValue("color"));
+			res = col.asRgb().equals(elcol.asRgb());
+		}
+		catch(Exception e)
+		{
+			b.report("Error occurred during the validation of colour of element "+locator);
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean compareBackgroundColor(BaseC b, By locator, String color)
+	{
+		boolean res = true;
+		try {
+			Color col = Color.fromString(color);
+			Color elcol = Color.fromString(b.driver().findElement(locator).getCssValue("background-color"));
+			res = col.asRgb().equals(elcol.asRgb());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			b.report("Error occurred during the validation of backgroud-colour of element "+locator);
+			res =false;
+		}
+		return res;
+	}
+	
+	public static String getColor(BaseC b, By locator)
+	{
+		String res = "";
+		try {
+			Color elcol = Color.fromString(b.driver().findElement(locator).getCssValue("color"));
+			res = elcol.asRgb();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			b.report("Error occurred during getting the colour of element "+locator);
+			res ="";
+		}
+		return res;
+	}
+	
+	public static String getBackgroundColor(BaseC b, By locator)
+	{
+		String res = "";
+		try {
+			Color elcol = Color.fromString(b.driver().findElement(locator).getCssValue("background-color"));
+			res = elcol.asRgb();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			b.report("Error occurred during getting the backgroud-colour of element "+locator);
+			res ="";
 		}
 		return res;
 	}

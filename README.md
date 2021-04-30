@@ -28,6 +28,7 @@ Pros:
 23. Added test case for downloading files, validating files in a directory and delete them.
 24. Implemented Clipboard Copy Paste utilities.
 25. Implemented count() in xpaths for traversing web tables.
+26. Implemented Colour Validation with Color class.
 
 Cons:
 

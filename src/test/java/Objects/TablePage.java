@@ -6,6 +6,7 @@ public class TablePage {
 
 	public static By elmXPWebTablePageHeader = By.xpath("//h2[text()=' Data Table with Download / Print Demo']");
 	public static By elmXPDownloadButton(String type) { return By.xpath("//span[text()='"+type+"']");}
+	public static By elmXPDownloadButton3D(String type) { return By.xpath("//span[text()='"+type+"']/parent::a");}
 	
 	public static String getRowIndex(String name) //Assuming that the names are primary keys.
 	{return "count(//td[contains(text(),'"+name+"')]/parent::tr/preceding-sibling::tr)+1";}

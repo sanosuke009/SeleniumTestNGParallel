@@ -49,13 +49,14 @@ public class TestSuite_007_DownloadTableData {
 		base.Assert(LandingMethods.openLandingPage(base));
 		LandingMethods.clickOnPopUp(base);
 		base.Assert(LandingMethods.pickOption(base, base.get("FirstOption"), base.get("SecondOption")));
-		base.Assert(WebTableMethods.downloadTableData(base, base.get("AlertAction"), base.get("FileNames")));
+		base.Assert(WebTableMethods.downloadTableData(base, base.get("AlertAction"), 
+				base.get("FileNames"), base.get("Attribute")));
 		//=====Mandatory at the end of all tests===
 		base.AssertAll();
 		//=========================================
 	}
 	
-	@Test
+	@Test(enabled = false)
 	public void testMethod_10()
 	{
 		String keyword = "kw_fetchtabledata";//This will be unique for each test case @Test

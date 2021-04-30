@@ -7,7 +7,7 @@ import Utilities.FileUtil;
 
 public class WebTableMethods {
 	
-	public static boolean downloadTableData(BaseC b, String option, String filenames)
+	public static boolean downloadTableData(BaseC b, String option, String filenames, String color)
 	{
 		boolean res = true;
 		String[] ops = option.split("#");
@@ -22,6 +22,10 @@ public class WebTableMethods {
 			{
 				boolean result = elementActions.highlightElement(b, TablePage.elmXPDownloadButton(ops[j]));
 				if(result) result = elementActions.scrollElementToMiddle(b, TablePage.elmXPDownloadButton(ops[j]));
+				if(result) result = elementActions.compareBackgroundColor(b, TablePage.elmXPDownloadButton3D(ops[j]), color);
+				if(result) b.report("The color of the "+ops[j]+" button is "+color+" as expected.");
+				else b.report("The color of the "+ops[j]+" button is NOT "+color+" as expected. "
+						+ "The color is "+elementActions.getBackgroundColor(b, TablePage.elmXPDownloadButton3D(ops[j])));
 				if(result) result = elementActions.click(b, TablePage.elmXPDownloadButton(ops[j]));
 				if(result) result = FileUtil.fileExistenceValidation(FileUtil.getAbsPath(b.getConfig("downloadpath")), fs[j]);
 				if(result) b.report("The "+option+" is downloaded from the table page.");
