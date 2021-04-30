@@ -32,4 +32,34 @@ public class WebTableMethods {
 		b.takeScreenShot();
 		return res;
 	}
+
+
+	public static boolean fetchTableData(BaseC b, String names, String columns)
+	{
+		boolean res = true;
+		String[] name = names.split("#");
+		String[] columnname = columns.split("#");
+		if(res) res = elementActions.waitUntilClickableFluent(b, TablePage.elmXPWebTablePageHeader);
+		if(res) res = elementActions.isDisplayed(b, TablePage.elmXPWebTablePageHeader);
+		if(res) res = elementActions.highlightElement(b, TablePage.elmXPWebTablePageHeader);
+		b.takeScreenShot();
+		if(res)
+		{
+			for(String nam:name)
+			{
+				for(String col : columnname)
+				{
+					String key="";
+					boolean result = elementActions.highlightElement(b, TablePage.elmXPCellOfANameAndColumn(nam, col));
+					if(result) result = elementActions.scrollElementToMiddle(b, TablePage.elmXPCellOfANameAndColumn(nam, col));
+					if(result) key = elementActions.getText(b, TablePage.elmXPCellOfANameAndColumn(nam, col));
+					if(result) b.report("The "+col+" of "+nam+" is displayed in the table as "+key);
+					else {b.report("The "+col+" of "+nam+" is NOT displayed in the table."); res = result;}
+				}
+			}
+		}
+		b.takeScreenShot();
+		return res;
+	}
+
 }

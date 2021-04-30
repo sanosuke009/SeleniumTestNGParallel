@@ -2,9 +2,6 @@ package Utilities;
 
 import java.io.File;
 
-import ElementActions.elementActions;
-import TestBases.BaseC;
-
 public class FileUtil {
 
 	public static String getAbsPath(String path)
@@ -43,8 +40,8 @@ public class FileUtil {
 				String dirName=path1;
 				File dir = new File(dirName);
 				File[] dir_contents = dir.listFiles();
-				String temp = getTotalPath(path1, path2);
-				boolean check = new File(temp).exists();
+				//String temp = getTotalPath(path1, path2);
+				//boolean check = new File(temp).exists();
 				//System.out.println("Check" + check); // -->always says false
 
 				for (int i = 0; i < dir_contents.length; i++) {

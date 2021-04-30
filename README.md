@@ -26,6 +26,8 @@ Pros:
 21. Implemented Assertion Manager, controlling Hard & Soft Assert from Configuration file, for each test case.
 22. Added remote webdriver but not implemented.
 23. Added test case for downloading files, validating files in a directory and delete them.
+24. Implemented Clipboard Copy Paste utilities.
+25. Implemented count() in xpaths for traversing web tables.
 
 Cons:
 

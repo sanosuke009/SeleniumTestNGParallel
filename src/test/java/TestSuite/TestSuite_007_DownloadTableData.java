@@ -54,5 +54,22 @@ public class TestSuite_007_DownloadTableData {
 		base.AssertAll();
 		//=========================================
 	}
+	
+	@Test
+	public void testMethod_10()
+	{
+		String keyword = "kw_fetchtabledata";//This will be unique for each test case @Test
+		//=====Mandatory in every @Test============
+		base.setKeyWord(keyword);
+		base.startextent();//This line initializes the extent report for this particular test method
+		//=========================================
+		base.Assert(LandingMethods.openLandingPage(base));
+		LandingMethods.clickOnPopUp(base);
+		base.Assert(LandingMethods.pickOption(base, base.get("FirstOption"), base.get("SecondOption")));
+		base.Assert(WebTableMethods.fetchTableData(base, base.get("AlertAction"), base.get("FileNames")));
+		//=====Mandatory at the end of all tests===
+		base.AssertAll();
+		//=========================================
+	}
 
 }

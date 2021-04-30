@@ -19,6 +19,7 @@ import org.openqa.selenium.support.ui.Select;
 import com.relevantcodes.extentreports.LogStatus;
 
 import TestBases.BaseC;
+import Utilities.ClipBoardUtil;
 import io.netty.handler.timeout.TimeoutException;
 
 public class elementActions {
@@ -154,6 +155,23 @@ public class elementActions {
 		catch(TimeoutException e)
 		{
 			b.report("The Key Stroke "+keysToSend+" was not given as input in element "+locator);
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean sendKeysUsingClipboard(BaseC b, By locator, String keysToSend)
+	{
+		boolean res = true;
+		try {
+			if(res) res = ClipBoardUtil.copy(keysToSend);
+			if(res) b.driver().findElement(locator).clear();
+			if(res) b.driver().findElement(locator).click();
+			if(res) res = ClipBoardUtil.paste();
+		}
+		catch(TimeoutException e)
+		{
+			b.report("The STring "+keysToSend+" was not given as input in element "+locator);
 			res =false;
 		}
 		return res;

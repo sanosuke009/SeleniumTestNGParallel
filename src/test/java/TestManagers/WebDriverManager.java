@@ -4,12 +4,10 @@ package TestManagers;
 
 import java.net.URL;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
