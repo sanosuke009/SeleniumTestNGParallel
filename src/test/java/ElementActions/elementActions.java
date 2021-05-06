@@ -1,6 +1,13 @@
 package ElementActions;
 
+import java.awt.Robot;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -13,6 +20,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.Mouse;
+import org.openqa.selenium.interactions.internal.MouseAction;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -21,6 +32,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import TestBases.BaseC;
 import Utilities.ClipBoardUtil;
+import Utilities.FileUtil;
 import io.netty.handler.timeout.TimeoutException;
 
 public class elementActions {
@@ -266,6 +278,92 @@ public class elementActions {
 			b.report("Error occurred during getting the text from element : "+locator+".");
 		}
 		return name;
+	}
+	
+	public static boolean dragAndDrop(BaseC b, By locator, By locator1)
+	{
+		boolean res = false;
+		try {
+			String jspath = FileUtil.getAbsPath(b.getConfig("dragndropjsfilepath"));
+			
+			WebElement el = b.Wait().until(ExpectedConditions.elementToBeClickable(locator));
+			WebElement el1 = b.Wait().until(ExpectedConditions.elementToBeClickable(locator1));
+			
+			// It's even easier in Java 
+	        StringBuffer sb = new StringBuffer();
+	        Files.lines(Paths.get(jspath), StandardCharsets.UTF_8).forEach(sb::append);
+	        
+			String script = sb.toString();
+			script = script + "executeDrageAndDrop(arguments[0], arguments[1])";
+			JavascriptExecutor executor = (JavascriptExecutor)b.driver();
+			executor.executeScript(script, el, el1);
+
+			/*int h = el.getSize().getHeight()/2;
+			int w = el.getSize().getWidth()/2;
+			int x = el.getLocation().getX()+w;
+			int y = el.getLocation().getY()+h;
+			
+			int h1 = el1.getSize().getHeight()/2;
+			int w1 = el1.getSize().getWidth()/2;
+			int x1 = el1.getLocation().getX()+w1;
+			int y1 = el1.getLocation().getY()+h1;
+			
+			int actX = x1 - x;
+			int actY = y1 - y;*/
+			
+			/*int x = el.getLocation().getX();
+			int y = el.getLocation().getY();
+			
+			int x1 = el1.getLocation().getX();
+			int y1 = el1.getLocation().getY();
+			
+			
+			System.out.println("x = "+x);
+			System.out.println("y = "+y);
+			System.out.println("x1 = "+x1);
+			System.out.println("y1 = "+y1);*/
+			
+			//System.out.println("actX = "+actX);
+			//System.out.println("actY = "+actY);
+			
+			//Actions actions = new Actions(b.driver());
+			//Action action = actions.dragAndDropBy(el, x, y).build();
+			/*Action action = actions.moveToElement(el)
+					.clickAndHold(el)
+					.moveToElement(el1)
+					.build();
+			action.perform();
+			Action action1 = actions.release().build();
+			action1.perform();*/
+			/*Action action = actions
+					.moveToElement(el)
+					.pause(Duration.ofSeconds(1))
+					.clickAndHold(el)
+					.pause(Duration.ofSeconds(1))
+					.moveByOffset(actX, actY)
+					.moveToElement(el1)
+					//.moveByOffset(x, y)
+					.pause(Duration.ofSeconds(1))
+					.release()
+					.build();
+			action.perform();*/
+			/*Robot robot  = new Robot();
+			robot.mouseMove(x, y);
+			int mask = InputEvent.BUTTON1_DOWN_MASK;
+			robot.mousePress(mask);
+			robot.delay(3000);
+			robot.mouseMove(x1, y1);
+			robot.delay(3000);
+			robot.mouseRelease(mask);*/
+			//Thread.sleep(3000);
+			res = true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			b.report("Error occurred during dragging element : "+locator+" to element "+locator1);
+		}
+		return res;
 	}
 	
 	public static List<String> getTextOfAllSimilarElements(BaseC b, By locator)

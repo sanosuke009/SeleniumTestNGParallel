@@ -35,3 +35,4 @@ Cons:
 1. Parallel Execution Reports are not getting generated. Need to debug that.
 2. Screenshot cannot be taken for JavaScript alerts. Need to check later.
 3. OutOfMemry Error : Heap Space Issue -> Temporary solution by sure-fire configurations provided. Need to look for            	memory leaks later.
+4. Drag & Drop is not working.

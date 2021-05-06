@@ -3,7 +3,7 @@
 <suite name="Testing Demo">
     <test name="Regression">
          <classes>
-             <class name="TestSuite.TestSuite_007_DownloadTableData"/>
+             <class name="TestSuite.TestSuite_008_DragAndDropTest"/>
           </classes>
      </test> <!-- Test -->
 </suite> <!-- Suite -->
