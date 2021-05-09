@@ -70,11 +70,13 @@ public class ResultManager {
 	{
 		if(result.getStatus() == ITestResult.SUCCESS){
 			report(LogStatus.PASS, "Test Case Passed is "+result.getName());
-		}else if(result.getStatus() == ITestResult.FAILURE){
-			report(LogStatus.FAIL, "Test Case Failed is "+result.getName());
-			report(LogStatus.FAIL, "Test Case Failed is "+result.getThrowable());
 		}else if(result.getStatus() == ITestResult.SKIP){
 			report(LogStatus.SKIP, "Test Case Skipped is "+result.getName());
+		}
+		else //if(result.getStatus() == ITestResult.FAILURE)
+			{
+			report(LogStatus.FAIL, "Test Case Failed is "+result.getName());
+			report(LogStatus.FAIL, "Test Case Failed is "+result.getThrowable());
 		}
 		// ending test
 		//endTest(logger) : It ends the current test and prepares to create HTML report

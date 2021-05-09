@@ -2,6 +2,7 @@ package TestManagers;
 
 
 
+import java.io.File;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
@@ -11,12 +12,15 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import Utilities.FileUtil;
 
 public class WebDriverManager {
 
@@ -57,8 +61,10 @@ public class WebDriverManager {
 			options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 			//options.addArguments("start-maximized");
 			//options.addArguments("-headless");
+
 			//========================================================
 			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+cm.configGet("chromedriverpath"));
+			ChromeDriverService services = new ChromeDriverService.Builder().withSilent(true).withLogFile(new File(FileUtil.getAbsPath(cm.configGet("chromelogpath")))).build();
 			if(cm.configGet("remote").contains("Y"))
 			{
 				options.setCapability("browserVersion", "90");
@@ -67,7 +73,7 @@ public class WebDriverManager {
 			}
 			else
 			{
-				driver = new ChromeDriver(options);
+				driver = new ChromeDriver(services, options);
 			}
 			//driver = ThreadGuard.protect(new ChromeDriver(options));//Thread guard protects the ownership of the webdriver.
 			System.out.println("Initiated webdriver.");

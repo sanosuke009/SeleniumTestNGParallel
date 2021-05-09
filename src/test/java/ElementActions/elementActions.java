@@ -1,13 +1,9 @@
 package ElementActions;
 
-import java.awt.Robot;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -20,10 +16,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.Mouse;
-import org.openqa.selenium.interactions.internal.MouseAction;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -244,6 +236,45 @@ public class elementActions {
 		catch(Exception e)
 		{
 			b.report("The page was not scrolled to element : "+locator+".");
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean removeReadOnlyPropertyOfElement(BaseC b, By locator, int i)
+	{
+		boolean res = true;
+		try {
+			/*
+			 * Second parameter of removeAttribute method of java script is optional we are mentioning it as '0' here for non case sensitive search, meaning of the different values are described below.
+
+				0      It is the default value and performs the non case sensitive search
+				1      It performs the case sensitive property search
+				2      It returns the property value as it is set in the script or html code
+			 */
+			JavascriptExecutor js = (JavascriptExecutor)b.driver();
+			WebElement element = b.driver().findElement(locator);
+			js.executeScript("arguments[0].removeAttribute('readonly',"+i+");", element);
+		}
+		catch(Exception e)
+		{
+			b.report("The removal of readonly property from element : "+locator+".");
+			res =false;
+		}
+		return res;
+	}
+	
+	public static boolean addTextInLabelToElement(BaseC b, By locator, String text)
+	{
+		boolean res = true;
+		try {
+			JavascriptExecutor js = (JavascriptExecutor)b.driver();
+			WebElement element = b.driver().findElement(locator);
+			js.executeScript("arguments[0].innerHTML = '" + text +"';", element);
+		}
+		catch(Exception e)
+		{
+			b.report("The "+text+" was NOT added to element : "+locator+".");
 			res =false;
 		}
 		return res;

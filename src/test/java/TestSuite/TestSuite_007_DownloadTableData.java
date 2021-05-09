@@ -44,7 +44,6 @@ public class TestSuite_007_DownloadTableData {
 		String keyword = "kw_downloadtabledata";//This will be unique for each test case @Test
 		//=====Mandatory in every @Test============
 		base.setKeyWord(keyword);
-		base.startextent();//This line initializes the extent report for this particular test method
 		//=========================================
 		base.Assert(LandingMethods.openLandingPage(base));
 		LandingMethods.clickOnPopUp(base);
@@ -56,13 +55,12 @@ public class TestSuite_007_DownloadTableData {
 		//=========================================
 	}
 	
-	@Test(enabled = false)
+	@Test//(enabled = false)
 	public void testMethod_10()
 	{
 		String keyword = "kw_fetchtabledata";//This will be unique for each test case @Test
 		//=====Mandatory in every @Test============
 		base.setKeyWord(keyword);
-		base.startextent();//This line initializes the extent report for this particular test method
 		//=========================================
 		base.Assert(LandingMethods.openLandingPage(base));
 		LandingMethods.clickOnPopUp(base);

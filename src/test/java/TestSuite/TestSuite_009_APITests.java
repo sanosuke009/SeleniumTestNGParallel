@@ -7,11 +7,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import Methods.DragAndDropMethods;
-import Methods.LandingMethods;
+import APIUtilities.APIMethods;
 import TestBases.BaseC;
 
-public class TestSuite_008_DragAndDropTest {
+public class TestSuite_009_APITests {
 
 	BaseC base;
 
@@ -22,22 +21,19 @@ public class TestSuite_008_DragAndDropTest {
 	public void exitReport(){base.terminateExtentReport();}
 
 	@BeforeMethod
-	public void setUp(){base.startSession();}
+	public void setUp(){base.startSessionAPI();}
 
 	@AfterMethod
-	public void getResult(ITestResult result){base.endSession(result);}
+	public void getResult(ITestResult result){base.endSessionAPI(result);}
 
 	@Test
-	public void testMethod_11()
+	public void testMethod_12()
 	{
-		String keyword = "kw_draganddrop";//This will be unique for each test case @Test
+		String keyword = "kw_apiget";//This will be unique for each test case @Test
 		//=====Mandatory in every @Test============
 		base.setKeyWord(keyword);//This line initializes the keyword and extent report for this particular test method
 		//=========================================
-		base.Assert(LandingMethods.openLandingPage(base));
-		LandingMethods.clickOnPopUp(base);
-		base.Assert(LandingMethods.pickOption(base, base.get("FirstOption"), base.get("SecondOption")));
-		base.Assert(DragAndDropMethods.dragAndDropElements(base));
+		base.Assert(APIMethods.validateGet(base));
 		//=====Mandatory at the end of all tests===
 		base.AssertAll();
 		//=========================================

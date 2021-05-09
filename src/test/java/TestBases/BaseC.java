@@ -114,6 +114,7 @@ public class BaseC{
 	public void setKeyWord(String keyword)
 	{
 		this.keyword = keyword;
+		this.startextent();
 	}
 	
 	//=============================================================================
@@ -210,6 +211,10 @@ public class BaseC{
 			this.launchBrowser();
 			this.setScreenShot();
 		}
+		public void startSessionAPI()
+		{
+			if(isTempManagementRequired) {this.initTemp();}
+		}
 		public void startSession(String url)
 		{
 			if(isTempManagementRequired) {this.initTemp();}
@@ -221,6 +226,11 @@ public class BaseC{
 		{
 			this.endextent(result);
 			this.quitBrowser();
+			if(isTempManagementRequired) {this.deleteTemp();}
+		}
+		public void endSessionAPI(ITestResult result)
+		{
+			this.endextent(result);
 			if(isTempManagementRequired) {this.deleteTemp();}
 		}
 		//=============================================================================

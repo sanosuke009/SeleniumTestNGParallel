@@ -3,7 +3,7 @@
 <suite name="Testing Demo">
     <test name="Regression">
          <classes>
-             <class name="TestSuite.TestSuite_008_DragAndDropTest"/>
+             <class name="TestSuite.TestSuite_009_APITests"/>
           </classes>
      </test> <!-- Test -->
 </suite> <!-- Suite -->
